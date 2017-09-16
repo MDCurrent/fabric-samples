@@ -48,7 +48,7 @@ Promise.resolve().then(() => {
     const request = {
         chaincodeId: options.chaincode_id,
         txId: transaction_id,
-        fcn: 'queryAllCars',
+        fcn: 'queryAllRecords',
         args: ['']
     };
     return channel.queryByChaincode(request);

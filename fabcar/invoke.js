@@ -48,14 +48,14 @@ Promise.resolve().then(() => {
 }).then(() => {
     tx_id = client.newTransactionID();
     console.log("Assigning transaction_id: ", tx_id._transaction_id);
-    // createCar - requires 5 args, ex: args: ['CAR11', 'Honda', 'Accord', 'Black', 'Tom'],
-    // changeCarOwner - requires 2 args , ex: args: ['CAR10', 'Barry'],
+    // createRecord - requires 5 args, ex: args: ['REC11', 'John Smith', 'Dr. Pepper', 'Strep Throat Swab', '150000'],
+    // changeRecordPatient - requires 2 args , ex: args: ['REC10', 'Barry'],
     // send proposal to endorser
     var request = {
         targets: targets,
         chaincodeId: options.chaincode_id,
-        fcn: 'createCar',
-        args: ['CAR10', 'Chevy', 'Volt', 'Red', 'Nick'],
+        fcn: 'createRecord',
+        args: ['REC10', 'Matt', 'Doc Brown', 'Swabbed Mouth', '10000'],
         chainId: options.channel_id,
         txId: tx_id
     };
