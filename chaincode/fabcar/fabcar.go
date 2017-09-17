@@ -67,7 +67,6 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 	// Retrieve the requested Smart Contract function and arguments
 	function, args := APIstub.GetFunctionAndParameters()
 	// Route to the appropriate handler function to interact with the ledger appropriately
-	return shim.Success(function)
 	if function == "queryRecord" {
 		return s.queryRecord(APIstub, args)
 	} else if function == "initLedger" {
@@ -95,23 +94,25 @@ func (s *SmartContract) queryRecord(APIstub shim.ChaincodeStubInterface, args []
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	records := []MedicalRecord{
-		MedicalRecord{Patient: "Toyota", Doctor: "Prius", Procedure: "blue", Cost: "Tomoko"},
-		MedicalRecord{Patient: "Ford", Doctor: "Mustang", Procedure: "red", Cost: "Brad"},
-		MedicalRecord{Patient: "Hyundai", Doctor: "Tucson", Procedure: "green", Cost: "Jin Soo"},
-		MedicalRecord{Patient: "Volkswagen", Doctor: "Passat", Procedure: "yellow", Cost: "Max"},
-		MedicalRecord{Patient: "Tesla", Doctor: "S", Procedure: "black", Cost: "Adriana"},
-		MedicalRecord{Patient: "Peugeot", Doctor: "205", Procedure: "purple", Cost: "Michel"},
-		MedicalRecord{Patient: "Chery", Doctor: "S22L", Procedure: "white", Cost: "Aarav"},
-		MedicalRecord{Patient: "Fiat", Doctor: "Punto", Procedure: "violet", Cost: "Pari"},
-		MedicalRecord{Patient: "Tata", Doctor: "Nano", Procedure: "indigo", Cost: "Valeria"},
-		MedicalRecord{Patient: "Holden", Doctor: "Barina", Procedure: "brown", Cost: "Shotaro"},
+		MedicalRecord{Patient: "Jacob Henderson", Doctor: "MF Doom", Procedure: "Vascetomy", Cost: "400000"},
+		MedicalRecord{Patient: "La'var Ball", Doctor: "Leo Muskang", Procedure: "STI Test", Cost: "00"},
+		MedicalRecord{Patient: "George Stephanoppolis", Doctor: "Marley Davis", Procedure: "Immunizations", Cost: "10000"},
+		MedicalRecord{Patient: "Anika Ghoshis", Doctor: "Robert DeNiro", Procedure: "12 Stitches", Cost: "103000"},
+		MedicalRecord{Patient: "David Cameron", Doctor: "Rob Hood", Procedure: "Yearly Checkup", Cost: "1230400"},
+		MedicalRecord{Patient: "Ryan Pagan", Doctor: "Bridget Dewey", Procedure: "Hepatitis C Vaccination", Cost: "00"},
+		MedicalRecord{Patient: "Chary Adamo", Doctor: "VanBailey", Procedure: "Check Blood Pressure", Cost: "5000"},
+		MedicalRecord{Patient: "Paris Hilton", Doctor: "Allen Po", Procedure: "Botox Injection 120cc", Cost: "15000000"},
+		MedicalRecord{Patient: "Tata Holden", Doctor: "Nano Bot", Procedure: "Liposuction 12 lbs", Cost: "2200300"},
+		MedicalRecord{Patient: "Joe Crawford", Doctor: "Brian Nina", Procedure: "Cast Broken Arm", Cost: "404400"},
+		MedicalRecord{Patient:"John Smith", Doctor:"Strange", Procedure:"Brain Surgery", Cost:"50"},
+		MedicalRecord{Patient:"John Jacob Jingleheimer Schmidtt", Doctor:"Grenaldi", Procedure:"Turn your head and cough", Cost:"50"},
 	}
 
 	i := 0
 	for i < len(records) {
 		fmt.Println("i is ", i)
-		carAsBytes, _ := json.Marshal(records[i])
-		APIstub.PutState("REC"+strconv.Itoa(i), carAsBytes)
+		recordAsBytes, _ := json.Marshal(records[i])
+		APIstub.PutState("REC"+strconv.Itoa(i), recordAsBytes)
 		fmt.Println("Added", records[i])
 		i = i + 1
 	}
@@ -186,7 +187,7 @@ func (s *SmartContract) changeRecordPatient(APIstub shim.ChaincodeStubInterface,
 	record := MedicalRecord{}
 
 	json.Unmarshal(recordAsBytes, &record)
-	record.Cost = args[1]
+	record.Patient = args[1]
 
 	recordAsBytes, _ = json.Marshal(record)
 	APIstub.PutState(args[0], recordAsBytes)

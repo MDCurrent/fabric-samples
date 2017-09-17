@@ -55,7 +55,7 @@ Promise.resolve().then(() => {
         targets: targets,
         chaincodeId: options.chaincode_id,
         fcn: 'createRecord',
-        args: ['REC10', 'Matt', 'Doc Brown', 'Swabbed Mouth', '10000'],
+        args: ['REC12', 'Matt', 'Doc Brown', 'Swabbed Mouth', '10000'],
         chainId: options.channel_id,
         txId: tx_id
     };
